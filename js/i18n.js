@@ -98,7 +98,10 @@ const LANG = {
       'dash.reading': 'Чтение',
 
       // Practice
-      'prac.cat': '✈️ ВЫЖИВАНИЕ В АЭРОПОРТУ',
+      'prac.cat.moving': '🏠 ПЕРВАЯ НЕДЕЛЯ ЗА РУБЕЖОМ',
+      'prac.cat.study':  '🏫 ВЫЖИВАНИЕ В УНИВЕРСИТЕТЕ',
+      'prac.cat.work':   '🏢 ВЫЖИВАНИЕ В ОФИСЕ',
+      'prac.cat.travel': '🗺️ ВЫЖИВАНИЕ В ПУТЕШЕСТВИИ',
       'prac.exit': '✕ Выйти',
       'prac.sit.tag': 'СИТУАЦИЯ',
       'prac.label': 'Твой ответ:',
@@ -217,7 +220,10 @@ const LANG = {
       'dash.reading': 'Reading',
 
       // Practice
-      'prac.cat': '✈️ AIRPORT SURVIVAL',
+      'prac.cat.moving': '🏠 FIRST WEEK ABROAD',
+      'prac.cat.study':  '🏫 CAMPUS SURVIVAL',
+      'prac.cat.work':   '🏢 OFFICE SURVIVAL',
+      'prac.cat.travel': '🗺️ TRAVEL SURVIVAL',
       'prac.exit': '✕ Exit',
       'prac.sit.tag': 'SITUATION',
       'prac.label': 'Your response:',

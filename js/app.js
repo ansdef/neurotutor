@@ -23,6 +23,9 @@ function showView(id, pushHistory = true) {
   const next = document.getElementById(id);
   if (next) next.classList.add('active');
   updateNav(id);
+  if (id === 'view-practice') {
+    loadScenario(getScenarios()[state.currentScenarioIndex]);
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -68,9 +71,9 @@ function setLang(lang) {
   const vid = activeView.id;
   if (vid === 'view-onboard-3') updateStress(document.getElementById('stress-slider').value);
   if (vid === 'view-dashboard') buildDashboard();
-  if (vid === 'view-practice') loadScenario(AIRPORT_SCENARIOS[state.currentScenarioIndex]);
+  if (vid === 'view-practice') loadScenario(getScenarios()[state.currentScenarioIndex]);
   if (vid === 'view-feedback') {
-    const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex];
+    const scenario = getScenarios()[state.currentScenarioIndex];
     document.getElementById('exp-grammar').textContent =
       lang === 'ru' ? scenario.feedback.grammarNoteRu : scenario.feedback.grammarNote;
     document.getElementById('exp-tone').textContent =
@@ -181,6 +184,10 @@ function buildDashboard() {
 /* =====================================================
    PRACTICE & FEEDBACK
    ===================================================== */
+function getScenarios() {
+  return SCENARIOS_BY_GOAL[state.goal] || SCENARIOS_BY_GOAL.moving;
+}
+
 function submitResponse() {
   const input = document.getElementById('response-input');
   const text = input.value.trim();
@@ -190,7 +197,8 @@ function submitResponse() {
     setTimeout(() => { input.style.borderColor = ''; }, 1500);
     return;
   }
-  const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex] || AIRPORT_SCENARIOS[0];
+  const scenarios = getScenarios();
+  const scenario = scenarios[state.currentScenarioIndex] || scenarios[0];
   renderFeedback(text, scenario);
   showView('view-feedback');
 }
@@ -219,15 +227,17 @@ function renderFeedback(userText, scenario) {
 }
 
 function nextScenario() {
-  state.currentScenarioIndex = (state.currentScenarioIndex + 1) % AIRPORT_SCENARIOS.length;
-  const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex];
-  loadScenario(scenario);
+  const scenarios = getScenarios();
+  state.currentScenarioIndex = (state.currentScenarioIndex + 1) % scenarios.length;
+  loadScenario(scenarios[state.currentScenarioIndex]);
   document.getElementById('response-input').value = '';
   showView('view-practice');
 }
 
 function loadScenario(scenario) {
   const lang = LANG.current;
+  const scenarios = getScenarios();
+
   document.getElementById('scenario-question').textContent = scenario.question;
   document.querySelector('.scenario-avatar').textContent = scenario.speaker;
   document.querySelector('.scenario-role').textContent =
@@ -240,10 +250,24 @@ function loadScenario(scenario) {
   const counter = document.querySelector('.scenario-counter');
   if (counter) {
     counter.textContent =
-      `${LANG.t('prac.q')} ${scenario.id} ${LANG.t('prac.of')} ${AIRPORT_SCENARIOS.length}`;
+      `${LANG.t('prac.q')} ${scenario.id} ${LANG.t('prac.of')} ${scenarios.length}`;
   }
   const dots = document.querySelectorAll('.scenario-dots .sdot');
   dots.forEach((d, i) => d.classList.toggle('active', i === scenario.id - 1));
+
+  updatePracticeCategory();
+}
+
+function updatePracticeCategory() {
+  const catEl = document.getElementById('prac-cat');
+  if (!catEl) return;
+  const catKeys = {
+    moving: 'prac.cat.moving',
+    study:  'prac.cat.study',
+    work:   'prac.cat.work',
+    travel: 'prac.cat.travel',
+  };
+  catEl.textContent = LANG.t(catKeys[state.goal] || 'prac.cat.moving');
 }
 
 /* =====================================================
