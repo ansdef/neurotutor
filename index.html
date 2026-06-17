@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MoveEnglish — Master the English you actually need to survive and thrive in a new country.">
+  <title>MoveEnglish — Survive Your First Days Abroad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" id="main-nav">
+    <button class="nav-logo" onclick="showView('view-landing')">
+      <span class="nav-logo-move">MOVE</span><span class="nav-logo-english">ENGLISH</span>
+    </button>
+    <div class="nav-actions">
+      <button class="nav-back" id="btn-nav-back" onclick="goBack()">← Back</button>
+      <div class="nav-step-indicator" id="nav-step-indicator">
+        <span class="step-dot" id="sdot-1"></span>
+        <span class="step-dot" id="sdot-2"></span>
+        <span class="step-dot" id="sdot-3"></span>
+        <span class="step-dot" id="sdot-4"></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================================
+       VIEW: LANDING
+       ===================================================================== -->
+  <section id="view-landing" class="view active">
+    <div class="hero">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span>SURVIVAL ENGLISH PLATFORM</span>
+      </div>
+
+      <h1 class="hero-headline">
+        <span class="hero-headline-accent">SURVIVE</span><br>
+        YOUR FIRST<br>
+        DAYS ABROAD.
+      </h1>
+
+      <p class="hero-sub">
+        Not a language course. A survival kit.<br>
+        Real situations. Real conversations. Real country.
+      </p>
+
+      <!-- DEPARTURE BOARD -->
+      <div class="departure-board">
+        <div class="board-header">
+          <span class="board-label">NEXT SITUATION</span>
+          <span class="board-status">
+            <span class="board-dot"></span>
+            LIVE
+          </span>
+        </div>
+        <div class="board-row">
+          <span class="board-situation" id="board-text">AIRPORT CHECK-IN</span>
+          <span class="board-country" id="board-country">NEW YORK</span>
+          <span class="board-ready">READY</span>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-xl" onclick="showView('view-onboard-1')">
+        BUILD MY SURVIVAL PLAN
+        <span class="btn-arrow">→</span>
+      </button>
+
+      <p class="hero-footnote">7 days &nbsp;·&nbsp; Real situations &nbsp;·&nbsp; No fluff</p>
+    </div>
+
+    <div class="features-row">
+      <div class="feature-item">
+        <span class="feature-icon">✈️</span>
+        <span class="feature-label">Airport to apartment</span>
+        <span class="feature-desc">Every situation you'll face in your first week, in order</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎤</span>
+        <span class="feature-label">Practice speaking</span>
+        <span class="feature-desc">Real-world scenarios with instant AI feedback</span>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <span class="feature-label">Survival Mode</span>
+        <span class="feature-desc">3 days before your flight? We've got a plan for that</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: ONBOARD 1 — GOAL
+       ===================================================================== -->
+  <section id="view-onboard-1" class="view">
+    <div class="onboard-container">
+      <div class="onboard-progress">
+        <div class="onboard-progress-bar" style="width: 25%"></div>
+      </div>
+
+      <p class="onboard-step-label">STEP 1 OF 4</p>
+      <h2 class="onboard-headline">What brings<br>you there?</h2>
+      <p class="onboard-sub">We'll tailor your situations to your actual goals.</p>
+
+      <div class="choice-grid">
+        <button class="choice-card" data-value="moving" onclick="selectChoice(this, 'goal')">
+          <span class="choice-icon">✈️</span>
+          <span class="choice-title">Moving abroad</span>
+          <span class="choice-desc">Long-term life change</span>
+        </button>
+        <button class="choice-card" data-value="study" onclick="selectChoice(this, 'goal')">
+          <span class="choice-icon">🎓</span>
+          <span class="choice-title">Studying</span>
+          <span class="choice-desc">University or language school</span>
+        </button>
+        <button class="choice-card" data-value="work" onclick="selectChoice(this, 'goal')">
+          <span class="choice-icon">💼</span>
+          <span class="choice-title">Work</span>
+          <span class="choice-desc">Business or career move</span>
+        </button>
+        <button class="choice-card" data-value="travel" onclick="selectChoice(this, 'goal')">
+          <span class="choice-icon">🌍</span>
+          <span class="choice-title">Travel</span>
+          <span class="choice-desc">Visiting or exploring</span>
+        </button>
+      </div>
+
+      <button class="btn-primary btn-continue" id="btn-continue-1" disabled
+              onclick="showView('view-onboard-2')">
+        Continue →
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: ONBOARD 2 — COUNTRY
+       ===================================================================== -->
+  <section id="view-onboard-2" class="view">
+    <div class="onboard-container">
+      <div class="onboard-progress">
+        <div class="onboard-progress-bar" style="width: 50%"></div>
+      </div>
+
+      <p class="onboard-step-label">STEP 2 OF 4</p>
+      <h2 class="onboard-headline">Where are<br>you headed?</h2>
+      <p class="onboard-sub">Different countries, different accents, different norms.</p>
+
+      <div class="choice-grid choice-grid-5">
+        <button class="choice-card choice-card-country" data-value="usa" onclick="selectChoice(this, 'country')">
+          <span class="choice-flag">🇺🇸</span>
+          <span class="choice-title">USA</span>
+        </button>
+        <button class="choice-card choice-card-country" data-value="uk" onclick="selectChoice(this, 'country')">
+          <span class="choice-flag">🇬🇧</span>
+          <span class="choice-title">UK</span>
+        </button>
+        <button class="choice-card choice-card-country" data-value="canada" onclick="selectChoice(this, 'country')">
+          <span class="choice-flag">🇨🇦</span>
+          <span class="choice-title">Canada</span>
+        </button>
+        <button class="choice-card choice-card-country" data-value="australia" onclick="selectChoice(this, 'country')">
+          <span class="choice-flag">🇦🇺</span>
+          <span class="choice-title">Australia</span>
+        </button>
+        <button class="choice-card choice-card-country" data-value="other" onclick="selectChoice(this, 'country')">
+          <span class="choice-flag">🌐</span>
+          <span class="choice-title">Other</span>
+        </button>
+      </div>
+
+      <button class="btn-primary btn-continue" id="btn-continue-2" disabled
+              onclick="showView('view-onboard-3')">
+        Continue →
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: ONBOARD 3 — STRESS LEVEL
+       ===================================================================== -->
+  <section id="view-onboard-3" class="view">
+    <div class="onboard-container">
+      <div class="onboard-progress">
+        <div class="onboard-progress-bar" style="width: 75%"></div>
+      </div>
+
+      <p class="onboard-step-label">STEP 3 OF 4</p>
+      <h2 class="onboard-headline">How do you feel<br>about speaking?</h2>
+      <p class="onboard-sub">Be honest — this shapes how we pace your plan.</p>
+
+      <div class="stress-container">
+        <div class="stress-display">
+          <span class="stress-emoji" id="stress-emoji">😰</span>
+          <span class="stress-text" id="stress-text">I'm scared to speak</span>
+        </div>
+
+        <div class="slider-container">
+          <input type="range" class="stress-slider" id="stress-slider"
+                 min="0" max="100" value="0" oninput="updateStress(this.value)">
+          <div class="slider-labels">
+            <span>😰 Too scared</span>
+            <span>😐 Getting there</span>
+            <span>😎 Ready</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-continue" onclick="showView('view-onboard-4')">
+        Continue →
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: ONBOARD 4 — SITUATIONS
+       ===================================================================== -->
+  <section id="view-onboard-4" class="view">
+    <div class="onboard-container">
+      <div class="onboard-progress">
+        <div class="onboard-progress-bar" style="width: 100%"></div>
+      </div>
+
+      <p class="onboard-step-label">STEP 4 OF 4</p>
+      <h2 class="onboard-headline">What situations<br>matter most?</h2>
+      <p class="onboard-sub">Select everything that applies. You can add more later.</p>
+
+      <div class="situations-grid">
+        <button class="situation-card" data-value="housing" onclick="toggleSituation(this)">
+          <span class="sit-icon">🏠</span>
+          <span class="sit-title">Housing</span>
+          <span class="sit-desc">Rent, host, accommodation</span>
+          <span class="sit-check">✓</span>
+        </button>
+        <button class="situation-card" data-value="food" onclick="toggleSituation(this)">
+          <span class="sit-icon">🍔</span>
+          <span class="sit-title">Food &amp; Cafes</span>
+          <span class="sit-desc">Order, pay, ask for things</span>
+          <span class="sit-check">✓</span>
+        </button>
+        <button class="situation-card" data-value="study" onclick="toggleSituation(this)">
+          <span class="sit-icon">🏫</span>
+          <span class="sit-title">Study</span>
+          <span class="sit-desc">Campus, professors, classmates</span>
+          <span class="sit-check">✓</span>
+        </button>
+        <button class="situation-card" data-value="social" onclick="toggleSituation(this)">
+          <span class="sit-icon">💬</span>
+          <span class="sit-title">Small talk</span>
+          <span class="sit-desc">Be friendly, not awkward</span>
+          <span class="sit-check">✓</span>
+        </button>
+        <button class="situation-card" data-value="docs" onclick="toggleSituation(this)">
+          <span class="sit-icon">🧾</span>
+          <span class="sit-title">Documents</span>
+          <span class="sit-desc">Bank, SIM card, official stuff</span>
+          <span class="sit-check">✓</span>
+        </button>
+        <button class="situation-card" data-value="airport" onclick="toggleSituation(this)">
+          <span class="sit-icon">✈️</span>
+          <span class="sit-title">Airport</span>
+          <span class="sit-desc">Check-in, customs, transit</span>
+          <span class="sit-check">✓</span>
+        </button>
+      </div>
+
+      <button class="btn-primary btn-continue" id="btn-continue-4" disabled
+              onclick="buildPlan()">
+        Build my plan →
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: PLAN READY
+       ===================================================================== -->
+  <section id="view-plan-ready" class="view">
+    <div class="plan-ready-container">
+      <div class="plan-ready-badge">✓</div>
+
+      <h2 class="plan-ready-headline">Your 7-day<br>survival plan<br>is ready.</h2>
+
+      <div class="plan-summary" id="plan-summary"></div>
+
+      <div class="plan-stats">
+        <div class="plan-stat">
+          <span class="stat-number mono">7</span>
+          <span class="stat-label">Days</span>
+        </div>
+        <div class="plan-stat-divider"></div>
+        <div class="plan-stat">
+          <span class="stat-number mono" id="plan-situations-count">12</span>
+          <span class="stat-label">Situations</span>
+        </div>
+        <div class="plan-stat-divider"></div>
+        <div class="plan-stat">
+          <span class="stat-number mono">~15</span>
+          <span class="stat-label">Min / day</span>
+        </div>
+      </div>
+
+      <button class="btn-primary btn-xl" onclick="showView('view-dashboard')">
+        Start Day 1 →
+      </button>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: DASHBOARD
+       ===================================================================== -->
+  <section id="view-dashboard" class="view">
+    <div class="dashboard">
+
+      <!-- TODAY'S MISSION -->
+      <div class="dashboard-mission">
+        <div class="mission-meta">
+          <span class="mission-day">DAY 1</span>
+          <span class="mission-tag">PRIORITY</span>
+        </div>
+        <h2 class="mission-title">Airport Survival</h2>
+        <p class="mission-desc">
+          You've just landed. Here's what's going to happen next — and what to say.
+        </p>
+        <button class="btn-primary" onclick="showView('view-practice')">
+          Start practice →
+        </button>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="dashboard-progress-card">
+        <div class="progress-header">
+          <span class="progress-label">Confidence Level</span>
+          <span class="progress-value mono">32%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 32%"></div>
+        </div>
+        <div class="progress-footer">
+          <span>3 situations completed</span>
+          <span>20 total</span>
+        </div>
+      </div>
+
+      <!-- QUICK SITUATIONS -->
+      <div class="dashboard-section">
+        <h3 class="section-title">Quick situations</h3>
+        <div class="quick-situations">
+          <button class="quick-sit-card" onclick="showView('view-practice')">
+            <span class="quick-sit-icon">✈️</span>
+            <div class="quick-sit-info">
+              <span class="quick-sit-title">Ask for directions</span>
+              <span class="quick-sit-meta">3 min · Beginner</span>
+            </div>
+            <span class="quick-sit-arrow">→</span>
+          </button>
+          <button class="quick-sit-card" onclick="showView('view-practice')">
+            <span class="quick-sit-icon">🍔</span>
+            <div class="quick-sit-info">
+              <span class="quick-sit-title">Order food at a cafe</span>
+              <span class="quick-sit-meta">5 min · Beginner</span>
+            </div>
+            <span class="quick-sit-arrow">→</span>
+          </button>
+          <button class="quick-sit-card" onclick="showView('view-practice')">
+            <span class="quick-sit-icon">👋</span>
+            <div class="quick-sit-info">
+              <span class="quick-sit-title">Introduce yourself</span>
+              <span class="quick-sit-meta">4 min · Beginner</span>
+            </div>
+            <span class="quick-sit-arrow">→</span>
+          </button>
+          <button class="quick-sit-card" onclick="showView('view-practice')">
+            <span class="quick-sit-icon">🏠</span>
+            <div class="quick-sit-info">
+              <span class="quick-sit-title">Rent an apartment</span>
+              <span class="quick-sit-meta">8 min · Intermediate</span>
+            </div>
+            <span class="quick-sit-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- EMERGENCY PHRASES -->
+      <div class="dashboard-section">
+        <h3 class="section-title">
+          Emergency phrases
+          <span class="section-tag emergency">ALWAYS USEFUL</span>
+        </h3>
+        <div class="emergency-phrases">
+          <div class="emergency-phrase">
+            <span class="phrase-text">"I don't understand."</span>
+            <button class="phrase-copy" onclick="copyPhrase(this, 'I don\'t understand.')">Copy</button>
+          </div>
+          <div class="emergency-phrase">
+            <span class="phrase-text">"Could you repeat that, please?"</span>
+            <button class="phrase-copy" onclick="copyPhrase(this, 'Could you repeat that, please?')">Copy</button>
+          </div>
+          <div class="emergency-phrase">
+            <span class="phrase-text">"Can you speak more slowly?"</span>
+            <button class="phrase-copy" onclick="copyPhrase(this, 'Can you speak more slowly?')">Copy</button>
+          </div>
+          <div class="emergency-phrase">
+            <span class="phrase-text">"I need help, please."</span>
+            <button class="phrase-copy" onclick="copyPhrase(this, 'I need help, please.')">Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEAK AREAS -->
+      <div class="dashboard-section">
+        <h3 class="section-title">Areas to strengthen</h3>
+        <div class="weak-areas">
+          <div class="weak-area-item">
+            <span class="weak-icon">🎧</span>
+            <span class="weak-name">Listening</span>
+            <div class="weak-bar-track">
+              <div class="weak-bar-fill" style="width: 28%"></div>
+            </div>
+            <span class="weak-pct mono">28%</span>
+          </div>
+          <div class="weak-area-item">
+            <span class="weak-icon">🗣️</span>
+            <span class="weak-name">Speaking</span>
+            <div class="weak-bar-track">
+              <div class="weak-bar-fill" style="width: 35%"></div>
+            </div>
+            <span class="weak-pct mono">35%</span>
+          </div>
+          <div class="weak-area-item">
+            <span class="weak-icon">📖</span>
+            <span class="weak-name">Reading</span>
+            <div class="weak-bar-track">
+              <div class="weak-bar-fill" style="width: 62%"></div>
+            </div>
+            <span class="weak-pct mono">62%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: PRACTICE — AIRPORT
+       ===================================================================== -->
+  <section id="view-practice" class="view">
+    <div class="practice-container">
+
+      <div class="practice-meta">
+        <span class="practice-cat">✈️ AIRPORT SURVIVAL</span>
+        <button class="practice-close" onclick="showView('view-dashboard')">✕ Exit</button>
+      </div>
+
+      <div class="practice-scenario">
+        <div class="scenario-person">
+          <div class="scenario-avatar">👮</div>
+          <div class="scenario-role">Border Control Officer</div>
+        </div>
+        <div class="scenario-bubble">
+          <p id="scenario-question">What is the purpose of your visit?</p>
+        </div>
+      </div>
+
+      <div class="practice-context">
+        <div class="context-tag">SITUATION</div>
+        <p class="context-text">
+          You've just arrived at passport control. The officer is looking at your documents
+          and waiting for your answer.
+        </p>
+      </div>
+
+      <div class="practice-response">
+        <label class="response-label">Your response:</label>
+        <textarea class="response-input" id="response-input"
+                  placeholder="Type what you would say in this situation…"
+                  rows="3"></textarea>
+
+        <div class="response-hints">
+          <span class="hint-tag">💡 Tip: Keep it brief and confident</span>
+        </div>
+
+        <button class="btn-primary" onclick="submitResponse()" id="btn-submit-response">
+          Get AI Feedback →
+        </button>
+      </div>
+
+      <div class="scenario-nav">
+        <span class="scenario-counter mono">Question 1 of 4</span>
+        <div class="scenario-dots">
+          <span class="sdot active"></span>
+          <span class="sdot"></span>
+          <span class="sdot"></span>
+          <span class="sdot"></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW: FEEDBACK
+       ===================================================================== -->
+  <section id="view-feedback" class="view">
+    <div class="feedback-container">
+
+      <div class="feedback-header">
+        <span class="feedback-score-badge good" id="feedback-score">Good try</span>
+        <h2 class="feedback-headline">Here's how to<br>say it better.</h2>
+      </div>
+
+      <!-- ORIGINAL -->
+      <div class="feedback-block feedback-original">
+        <div class="feedback-block-label">YOU SAID</div>
+        <p class="feedback-original-text" id="feedback-original-text">I come for study.</p>
+        <div class="feedback-issues">
+          <span class="issue-tag">grammar</span>
+          <span class="issue-tag">informal</span>
+        </div>
+      </div>
+
+      <!-- IMPROVED -->
+      <div class="feedback-block feedback-improved">
+        <div class="feedback-block-label">BETTER VERSION</div>
+        <p class="feedback-improved-text" id="feedback-improved-text">
+          I'm here to study for a short-term program.
+        </p>
+        <button class="feedback-copy"
+                onclick="copyPhrase(this, document.getElementById('feedback-improved-text').textContent.trim())">
+          Copy phrase
+        </button>
+      </div>
+
+      <!-- EXPLANATION -->
+      <div class="feedback-explanation">
+        <div class="explanation-item">
+          <span class="exp-icon">📐</span>
+          <div class="exp-content">
+            <span class="exp-label">Grammar fix</span>
+            <span class="exp-text" id="exp-grammar">
+              Use "I'm here to" instead of "I come for" — it's the natural construction in English.
+            </span>
+          </div>
+        </div>
+        <div class="explanation-item">
+          <span class="exp-icon">🎯</span>
+          <div class="exp-content">
+            <span class="exp-label">Tone</span>
+            <span class="exp-text" id="exp-tone">
+              For border control, be specific and formal. Mention the type of program if you know it.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="feedback-actions">
+        <button class="btn-secondary" onclick="showView('view-practice')">
+          Try again
+        </button>
+        <button class="btn-primary" onclick="nextScenario()">
+          Next question →
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
