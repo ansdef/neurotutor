@@ -1165,6 +1165,70 @@ textarea, input {
   border-color: var(--border-default);
 }
 
+.country-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(79, 168, 216, 0.07);
+  border: 1px solid rgba(79, 168, 216, 0.2);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.country-note-flag {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.country-note-tip {
+  color: var(--text-secondary);
+  flex: 1;
+  min-width: 0;
+}
+
+.country-note-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-blue);
+  padding: 2px 8px;
+  border: 1px solid rgba(79, 168, 216, 0.35);
+  border-radius: 20px;
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+  background: transparent;
+}
+.country-note-toggle:hover {
+  background: rgba(79, 168, 216, 0.12);
+}
+
+.country-note-vocab {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(79, 168, 216, 0.15);
+  margin-top: 4px;
+}
+
+.vocab-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-blue);
+  background: rgba(79, 168, 216, 0.1);
+  border: 1px solid rgba(79, 168, 216, 0.2);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
 .practice-scenario {
   display: flex;
   gap: 16px;

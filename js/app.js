@@ -71,7 +71,7 @@ function setLang(lang) {
   const vid = activeView.id;
   if (vid === 'view-onboard-3') updateStress(document.getElementById('stress-slider').value);
   if (vid === 'view-dashboard') buildDashboard();
-  if (vid === 'view-practice') loadScenario(getScenarios()[state.currentScenarioIndex]);
+  if (vid === 'view-practice') { loadScenario(getScenarios()[state.currentScenarioIndex]); updateCountryNote(); }
   if (vid === 'view-feedback') {
     const scenario = getScenarios()[state.currentScenarioIndex];
     document.getElementById('exp-grammar').textContent =
@@ -256,6 +256,7 @@ function loadScenario(scenario) {
   dots.forEach((d, i) => d.classList.toggle('active', i === scenario.id - 1));
 
   updatePracticeCategory();
+  updateCountryNote();
 }
 
 function updatePracticeCategory() {
@@ -268,6 +269,35 @@ function updatePracticeCategory() {
     travel: 'prac.cat.travel',
   };
   catEl.textContent = LANG.t(catKeys[state.goal] || 'prac.cat.moving');
+}
+
+function updateCountryNote() {
+  const note = COUNTRY_NOTES[state.country];
+  const el = document.getElementById('country-note');
+  if (!el) return;
+  if (!note) { el.style.display = 'none'; return; }
+
+  el.style.display = 'flex';
+  const lang = LANG.current;
+  document.getElementById('country-note-flag').textContent = note.flag;
+  document.getElementById('country-note-tip').textContent = lang === 'ru' ? note.tipRu : note.tip;
+  document.getElementById('country-note-toggle').textContent =
+    lang === 'ru' ? '+ лексика' : '+ vocab';
+
+  const vocabEl = document.getElementById('country-note-vocab');
+  const vocabList = lang === 'ru' ? note.vocabRu : note.vocab;
+  vocabEl.innerHTML = vocabList.map(v => `<span class="vocab-chip">${v}</span>`).join('');
+}
+
+function toggleCountryVocab() {
+  const vocabEl = document.getElementById('country-note-vocab');
+  const btn = document.getElementById('country-note-toggle');
+  const lang = LANG.current;
+  const open = vocabEl.style.display === 'none';
+  vocabEl.style.display = open ? 'flex' : 'none';
+  btn.textContent = open
+    ? (lang === 'ru' ? '− лексика' : '− vocab')
+    : (lang === 'ru' ? '+ лексика' : '+ vocab');
 }
 
 /* =====================================================
