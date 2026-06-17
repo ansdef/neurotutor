@@ -8,6 +8,7 @@ const state = {
   situations: new Set(),
   currentScenarioIndex: 0,
   viewHistory: [],
+  lastFeedbackScore: null,
 };
 
 /* =====================================================
@@ -55,6 +56,39 @@ function updateNav(viewId) {
 }
 
 /* =====================================================
+   LANGUAGE TOGGLE
+   ===================================================== */
+function toggleLang() {
+  const newLang = LANG.current === 'ru' ? 'en' : 'ru';
+  LANG.set(newLang);
+  applyTranslations();
+
+  const activeView = document.querySelector('.view.active');
+  if (!activeView) return;
+  const vid = activeView.id;
+
+  if (vid === 'view-onboard-3') {
+    updateStress(document.getElementById('stress-slider').value);
+  }
+  if (vid === 'view-practice') {
+    loadScenario(AIRPORT_SCENARIOS[state.currentScenarioIndex]);
+  }
+  if (vid === 'view-feedback') {
+    const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex];
+    const lang = LANG.current;
+    document.getElementById('exp-grammar').textContent =
+      lang === 'ru' ? scenario.feedback.grammarNoteRu : scenario.feedback.grammarNote;
+    document.getElementById('exp-tone').textContent =
+      lang === 'ru' ? scenario.feedback.toneNoteRu : scenario.feedback.toneNote;
+    if (state.lastFeedbackScore) {
+      const scoreKey = { good: 'fb.score.good', great: 'fb.score.great', 'needs-work': 'fb.score.needswork' };
+      const badge = document.getElementById('feedback-score');
+      badge.textContent = LANG.t(scoreKey[state.lastFeedbackScore]);
+    }
+  }
+}
+
+/* =====================================================
    ONBOARDING — CHOICES
    ===================================================== */
 function selectChoice(el, field) {
@@ -89,11 +123,13 @@ function updateStress(value) {
   const level = STRESS_LEVELS.find(l => value >= l.min && value <= l.max);
   if (!level) return;
   document.getElementById('stress-emoji').textContent = level.emoji;
-  document.getElementById('stress-text').textContent = level.text;
+  document.getElementById('stress-text').textContent =
+    LANG.current === 'ru' ? level.textRu : level.text;
 
   const slider = document.getElementById('stress-slider');
   const pct = (value - slider.min) / (slider.max - slider.min) * 100;
-  slider.style.background = `linear-gradient(to right, var(--accent-orange) ${pct}%, var(--border-default) ${pct}%)`;
+  slider.style.background =
+    `linear-gradient(to right, var(--accent-orange) ${pct}%, var(--border-default) ${pct}%)`;
 }
 
 /* =====================================================
@@ -107,13 +143,11 @@ function buildPlan() {
   summaryEl.innerHTML = items.map(item => `
     <div class="plan-summary-item">
       <span>${item.icon}</span>
-      <span>${item.label}</span>
+      <span>${LANG.current === 'ru' ? item.labelRu : item.label}</span>
     </div>
   `).join('');
 
-  const situationCount = 8 + state.situations.size * 2;
-  document.getElementById('plan-situations-count').textContent = situationCount;
-
+  document.getElementById('plan-situations-count').textContent = 8 + state.situations.size * 2;
   showView('view-plan-ready');
 }
 
@@ -129,7 +163,6 @@ function submitResponse() {
     setTimeout(() => { input.style.borderColor = ''; }, 1500);
     return;
   }
-
   const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex] || AIRPORT_SCENARIOS[0];
   renderFeedback(text, scenario);
   showView('view-feedback');
@@ -137,15 +170,20 @@ function submitResponse() {
 
 function renderFeedback(userText, scenario) {
   const { feedback } = scenario;
+  const lang = LANG.current;
+  state.lastFeedbackScore = feedback.score;
 
+  const scoreKey = { good: 'fb.score.good', great: 'fb.score.great', 'needs-work': 'fb.score.needswork' };
   const badge = document.getElementById('feedback-score');
-  badge.textContent = { good: 'Good try', great: 'Well done', 'needs-work': 'Needs work' }[feedback.score] || 'Good try';
+  badge.textContent = LANG.t(scoreKey[feedback.score] || 'fb.score.good');
   badge.className = `feedback-score-badge ${feedback.score}`;
 
   document.getElementById('feedback-original-text').textContent = `"${userText}"`;
   document.getElementById('feedback-improved-text').textContent = feedback.improved;
-  document.getElementById('exp-grammar').textContent = feedback.grammarNote;
-  document.getElementById('exp-tone').textContent = feedback.toneNote;
+  document.getElementById('exp-grammar').textContent =
+    lang === 'ru' ? feedback.grammarNoteRu : feedback.grammarNote;
+  document.getElementById('exp-tone').textContent =
+    lang === 'ru' ? feedback.toneNoteRu : feedback.toneNote;
 
   const issuesEl = document.querySelector('.feedback-issues');
   issuesEl.innerHTML = feedback.issues.length
@@ -162,15 +200,21 @@ function nextScenario() {
 }
 
 function loadScenario(scenario) {
+  const lang = LANG.current;
   document.getElementById('scenario-question').textContent = scenario.question;
   document.querySelector('.scenario-avatar').textContent = scenario.speaker;
-  document.querySelector('.scenario-role').textContent = scenario.role;
-  document.querySelector('.context-text').textContent = scenario.context;
-  document.querySelector('.hint-tag').textContent = scenario.hint;
+  document.querySelector('.scenario-role').textContent =
+    lang === 'ru' ? scenario.roleRu : scenario.role;
+  document.querySelector('.context-text').textContent =
+    lang === 'ru' ? scenario.contextRu : scenario.context;
+  document.querySelector('.hint-tag').textContent =
+    lang === 'ru' ? scenario.hintRu : scenario.hint;
 
   const counter = document.querySelector('.scenario-counter');
-  if (counter) counter.textContent = `Question ${scenario.id} of ${AIRPORT_SCENARIOS.length}`;
-
+  if (counter) {
+    counter.textContent =
+      `${LANG.t('prac.q')} ${scenario.id} ${LANG.t('prac.of')} ${AIRPORT_SCENARIOS.length}`;
+  }
   const dots = document.querySelectorAll('.scenario-dots .sdot');
   dots.forEach((d, i) => d.classList.toggle('active', i === scenario.id - 1));
 }
@@ -181,15 +225,15 @@ function loadScenario(scenario) {
 function copyPhrase(btn, text) {
   navigator.clipboard.writeText(text).then(() => {
     const orig = btn.textContent;
-    btn.textContent = 'Copied!';
+    btn.textContent = LANG.current === 'ru' ? 'Скопировано!' : 'Copied!';
     btn.classList.add('copied');
     setTimeout(() => {
       btn.textContent = orig;
       btn.classList.remove('copied');
     }, 2000);
   }).catch(() => {
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    btn.textContent = LANG.current === 'ru' ? 'Скопировано!' : 'Copied!';
+    setTimeout(() => { btn.textContent = btn.dataset.origText || 'Copy'; }, 2000);
   });
 }
 
@@ -224,15 +268,13 @@ function flipText(el, target, duration = 500, onDone) {
 
 function startDepartureBoard() {
   const textEl = document.getElementById('board-text');
-  const locEl = document.getElementById('board-country');
+  const locEl  = document.getElementById('board-country');
   if (!textEl || !locEl) return;
 
   let idx = 0;
   function cycle() {
     const item = BOARD_SITUATIONS[idx % BOARD_SITUATIONS.length];
-    flipText(textEl, item.text, 600, () => {
-      locEl.textContent = item.location;
-    });
+    flipText(textEl, item.text, 600, () => { locEl.textContent = item.location; });
     idx++;
     setTimeout(cycle, 3200);
   }
@@ -243,6 +285,7 @@ function startDepartureBoard() {
    INIT
    ===================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  applyTranslations();
   updateStress(0);
   startDepartureBoard();
 });

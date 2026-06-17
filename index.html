@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="MoveEnglish — Master the English you actually need to survive and thrive in a new country.">
-  <title>MoveEnglish — Survive Your First Days Abroad</title>
+  <meta name="description" content="MoveEnglish — английский для выживания в новой стране. Реальные ситуации, а не учебники.">
+  <title>MoveEnglish — Выживи в первые дни за рубежом</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -18,13 +18,14 @@
       <span class="nav-logo-move">MOVE</span><span class="nav-logo-english">ENGLISH</span>
     </button>
     <div class="nav-actions">
-      <button class="nav-back" id="btn-nav-back" onclick="goBack()">← Back</button>
+      <button class="nav-back" id="btn-nav-back" onclick="goBack()" data-i18n="back">← Назад</button>
       <div class="nav-step-indicator" id="nav-step-indicator">
-        <span class="step-dot" id="sdot-1"></span>
-        <span class="step-dot" id="sdot-2"></span>
-        <span class="step-dot" id="sdot-3"></span>
-        <span class="step-dot" id="sdot-4"></span>
+        <span class="step-dot"></span>
+        <span class="step-dot"></span>
+        <span class="step-dot"></span>
+        <span class="step-dot"></span>
       </div>
+      <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
     </div>
   </nav>
 
@@ -35,18 +36,18 @@
     <div class="hero">
       <div class="hero-tag">
         <span class="tag-dot"></span>
-        <span>SURVIVAL ENGLISH PLATFORM</span>
+        <span data-i18n="hero.tag">ПЛАТФОРМА ВЫЖИВАНИЯ НА АНГЛИЙСКОМ</span>
       </div>
 
       <h1 class="hero-headline">
-        <span class="hero-headline-accent">SURVIVE</span><br>
-        YOUR FIRST<br>
-        DAYS ABROAD.
+        <span class="hero-headline-accent" data-i18n="hero.accent">ВЫЖИВИ</span><br>
+        <span data-i18n="hero.line2">В ПЕРВЫЕ</span><br>
+        <span data-i18n="hero.line3">ДНИ ЗА РУБЕЖОМ.</span>
       </h1>
 
-      <p class="hero-sub">
-        Not a language course. A survival kit.<br>
-        Real situations. Real conversations. Real country.
+      <p class="hero-sub" data-i18n-html="hero.sub">
+        Не языковой курс. Набор для выживания.<br>
+        Реальные ситуации. Реальные разговоры. Реальная страна.
       </p>
 
       <!-- DEPARTURE BOARD -->
@@ -66,28 +67,28 @@
       </div>
 
       <button class="btn-primary btn-xl" onclick="showView('view-onboard-1')">
-        BUILD MY SURVIVAL PLAN
+        <span data-i18n="hero.cta">ПОСТРОИТЬ МОЙ ПЛАН</span>
         <span class="btn-arrow">→</span>
       </button>
 
-      <p class="hero-footnote">7 days &nbsp;·&nbsp; Real situations &nbsp;·&nbsp; No fluff</p>
+      <p class="hero-footnote" data-i18n="hero.footnote">7 дней · Реальные ситуации · Без воды</p>
     </div>
 
     <div class="features-row">
       <div class="feature-item">
         <span class="feature-icon">✈️</span>
-        <span class="feature-label">Airport to apartment</span>
-        <span class="feature-desc">Every situation you'll face in your first week, in order</span>
+        <span class="feature-label" data-i18n="feat1.label">ОТ АЭРОПОРТА ДО КВАРТИРЫ</span>
+        <span class="feature-desc" data-i18n="feat1.desc">Каждая ситуация, с которой ты столкнёшься на первой неделе</span>
       </div>
       <div class="feature-item">
         <span class="feature-icon">🎤</span>
-        <span class="feature-label">Practice speaking</span>
-        <span class="feature-desc">Real-world scenarios with instant AI feedback</span>
+        <span class="feature-label" data-i18n="feat2.label">ПРАКТИКА РАЗГОВОРА</span>
+        <span class="feature-desc" data-i18n="feat2.desc">Реальные сценарии с мгновенной обратной связью от ИИ</span>
       </div>
       <div class="feature-item">
         <span class="feature-icon">⚡</span>
-        <span class="feature-label">Survival Mode</span>
-        <span class="feature-desc">3 days before your flight? We've got a plan for that</span>
+        <span class="feature-label" data-i18n="feat3.label">РЕЖИМ ВЫЖИВАНИЯ</span>
+        <span class="feature-desc" data-i18n="feat3.desc">3 дня до вылета? У нас есть план для этого</span>
       </div>
     </div>
   </section>
@@ -101,36 +102,36 @@
         <div class="onboard-progress-bar" style="width: 25%"></div>
       </div>
 
-      <p class="onboard-step-label">STEP 1 OF 4</p>
-      <h2 class="onboard-headline">What brings<br>you there?</h2>
-      <p class="onboard-sub">We'll tailor your situations to your actual goals.</p>
+      <p class="onboard-step-label" data-i18n="ob1.step">ШАГ 1 ИЗ 4</p>
+      <h2 class="onboard-headline" data-i18n-html="ob1.headline">ЗАЧЕМ<br>ТЫ ЕДЕШЬ?</h2>
+      <p class="onboard-sub" data-i18n="ob1.sub">Мы подберём ситуации под твои цели.</p>
 
       <div class="choice-grid">
         <button class="choice-card" data-value="moving" onclick="selectChoice(this, 'goal')">
           <span class="choice-icon">✈️</span>
-          <span class="choice-title">Moving abroad</span>
-          <span class="choice-desc">Long-term life change</span>
+          <span class="choice-title" data-i18n="ob1.moving.title">Переезд за границу</span>
+          <span class="choice-desc" data-i18n="ob1.moving.desc">Долгосрочная жизненная перемена</span>
         </button>
         <button class="choice-card" data-value="study" onclick="selectChoice(this, 'goal')">
           <span class="choice-icon">🎓</span>
-          <span class="choice-title">Studying</span>
-          <span class="choice-desc">University or language school</span>
+          <span class="choice-title" data-i18n="ob1.study.title">Учёба</span>
+          <span class="choice-desc" data-i18n="ob1.study.desc">Университет или языковая школа</span>
         </button>
         <button class="choice-card" data-value="work" onclick="selectChoice(this, 'goal')">
           <span class="choice-icon">💼</span>
-          <span class="choice-title">Work</span>
-          <span class="choice-desc">Business or career move</span>
+          <span class="choice-title" data-i18n="ob1.work.title">Работа</span>
+          <span class="choice-desc" data-i18n="ob1.work.desc">Деловой или карьерный переезд</span>
         </button>
         <button class="choice-card" data-value="travel" onclick="selectChoice(this, 'goal')">
           <span class="choice-icon">🌍</span>
-          <span class="choice-title">Travel</span>
-          <span class="choice-desc">Visiting or exploring</span>
+          <span class="choice-title" data-i18n="ob1.travel.title">Путешествие</span>
+          <span class="choice-desc" data-i18n="ob1.travel.desc">Поездка или исследование</span>
         </button>
       </div>
 
       <button class="btn-primary btn-continue" id="btn-continue-1" disabled
-              onclick="showView('view-onboard-2')">
-        Continue →
+              onclick="showView('view-onboard-2')" data-i18n="continue">
+        Далее →
       </button>
     </div>
   </section>
@@ -144,9 +145,9 @@
         <div class="onboard-progress-bar" style="width: 50%"></div>
       </div>
 
-      <p class="onboard-step-label">STEP 2 OF 4</p>
-      <h2 class="onboard-headline">Where are<br>you headed?</h2>
-      <p class="onboard-sub">Different countries, different accents, different norms.</p>
+      <p class="onboard-step-label" data-i18n="ob2.step">ШАГ 2 ИЗ 4</p>
+      <h2 class="onboard-headline" data-i18n-html="ob2.headline">КУДА<br>ЕДЕШЬ?</h2>
+      <p class="onboard-sub" data-i18n="ob2.sub">Разные страны, разные акценты, разные нормы.</p>
 
       <div class="choice-grid choice-grid-5">
         <button class="choice-card choice-card-country" data-value="usa" onclick="selectChoice(this, 'country')">
@@ -172,8 +173,8 @@
       </div>
 
       <button class="btn-primary btn-continue" id="btn-continue-2" disabled
-              onclick="showView('view-onboard-3')">
-        Continue →
+              onclick="showView('view-onboard-3')" data-i18n="continue">
+        Далее →
       </button>
     </div>
   </section>
@@ -187,29 +188,29 @@
         <div class="onboard-progress-bar" style="width: 75%"></div>
       </div>
 
-      <p class="onboard-step-label">STEP 3 OF 4</p>
-      <h2 class="onboard-headline">How do you feel<br>about speaking?</h2>
-      <p class="onboard-sub">Be honest — this shapes how we pace your plan.</p>
+      <p class="onboard-step-label" data-i18n="ob3.step">ШАГ 3 ИЗ 4</p>
+      <h2 class="onboard-headline" data-i18n-html="ob3.headline">КАК ТЫ СЕБЯ<br>ЧУВСТВУЕШЬ?</h2>
+      <p class="onboard-sub" data-i18n="ob3.sub">Будь честен — это влияет на темп твоего плана.</p>
 
       <div class="stress-container">
         <div class="stress-display">
           <span class="stress-emoji" id="stress-emoji">😰</span>
-          <span class="stress-text" id="stress-text">I'm scared to speak</span>
+          <span class="stress-text" id="stress-text">Боюсь говорить</span>
         </div>
-
         <div class="slider-container">
           <input type="range" class="stress-slider" id="stress-slider"
                  min="0" max="100" value="0" oninput="updateStress(this.value)">
           <div class="slider-labels">
-            <span>😰 Too scared</span>
-            <span>😐 Getting there</span>
-            <span>😎 Ready</span>
+            <span data-i18n="ob3.low">😰 Слишком страшно</span>
+            <span data-i18n="ob3.mid">😐 Постепенно</span>
+            <span data-i18n="ob3.high">😎 Готов</span>
           </div>
         </div>
       </div>
 
-      <button class="btn-primary btn-continue" onclick="showView('view-onboard-4')">
-        Continue →
+      <button class="btn-primary btn-continue" onclick="showView('view-onboard-4')"
+              data-i18n="continue">
+        Далее →
       </button>
     </div>
   </section>
@@ -223,52 +224,52 @@
         <div class="onboard-progress-bar" style="width: 100%"></div>
       </div>
 
-      <p class="onboard-step-label">STEP 4 OF 4</p>
-      <h2 class="onboard-headline">What situations<br>matter most?</h2>
-      <p class="onboard-sub">Select everything that applies. You can add more later.</p>
+      <p class="onboard-step-label" data-i18n="ob4.step">ШАГ 4 ИЗ 4</p>
+      <h2 class="onboard-headline" data-i18n-html="ob4.headline">КАКИЕ СИТУАЦИИ<br>ВАЖНЕЕ ВСЕГО?</h2>
+      <p class="onboard-sub" data-i18n="ob4.sub">Выбери всё, что относится. Потом можно добавить.</p>
 
       <div class="situations-grid">
         <button class="situation-card" data-value="housing" onclick="toggleSituation(this)">
           <span class="sit-icon">🏠</span>
-          <span class="sit-title">Housing</span>
-          <span class="sit-desc">Rent, host, accommodation</span>
+          <span class="sit-title" data-i18n="ob4.housing.title">Жильё</span>
+          <span class="sit-desc" data-i18n="ob4.housing.desc">Аренда, хостел, проживание</span>
           <span class="sit-check">✓</span>
         </button>
         <button class="situation-card" data-value="food" onclick="toggleSituation(this)">
           <span class="sit-icon">🍔</span>
-          <span class="sit-title">Food &amp; Cafes</span>
-          <span class="sit-desc">Order, pay, ask for things</span>
+          <span class="sit-title" data-i18n="ob4.food.title">Еда и кафе</span>
+          <span class="sit-desc" data-i18n="ob4.food.desc">Заказать, оплатить, попросить</span>
           <span class="sit-check">✓</span>
         </button>
         <button class="situation-card" data-value="study" onclick="toggleSituation(this)">
           <span class="sit-icon">🏫</span>
-          <span class="sit-title">Study</span>
-          <span class="sit-desc">Campus, professors, classmates</span>
+          <span class="sit-title" data-i18n="ob4.study.title">Учёба</span>
+          <span class="sit-desc" data-i18n="ob4.study.desc">Кампус, преподаватели, однокурсники</span>
           <span class="sit-check">✓</span>
         </button>
         <button class="situation-card" data-value="social" onclick="toggleSituation(this)">
           <span class="sit-icon">💬</span>
-          <span class="sit-title">Small talk</span>
-          <span class="sit-desc">Be friendly, not awkward</span>
+          <span class="sit-title" data-i18n="ob4.social.title">Светская беседа</span>
+          <span class="sit-desc" data-i18n="ob4.social.desc">Быть дружелюбным, не неловким</span>
           <span class="sit-check">✓</span>
         </button>
         <button class="situation-card" data-value="docs" onclick="toggleSituation(this)">
           <span class="sit-icon">🧾</span>
-          <span class="sit-title">Documents</span>
-          <span class="sit-desc">Bank, SIM card, official stuff</span>
+          <span class="sit-title" data-i18n="ob4.docs.title">Документы</span>
+          <span class="sit-desc" data-i18n="ob4.docs.desc">Банк, SIM-карта, официальные дела</span>
           <span class="sit-check">✓</span>
         </button>
         <button class="situation-card" data-value="airport" onclick="toggleSituation(this)">
           <span class="sit-icon">✈️</span>
-          <span class="sit-title">Airport</span>
-          <span class="sit-desc">Check-in, customs, transit</span>
+          <span class="sit-title" data-i18n="ob4.airport.title">Аэропорт</span>
+          <span class="sit-desc" data-i18n="ob4.airport.desc">Регистрация, таможня, транзит</span>
           <span class="sit-check">✓</span>
         </button>
       </div>
 
       <button class="btn-primary btn-continue" id="btn-continue-4" disabled
-              onclick="buildPlan()">
-        Build my plan →
+              onclick="buildPlan()" data-i18n="ob4.cta">
+        Построить мой план →
       </button>
     </div>
   </section>
@@ -280,29 +281,30 @@
     <div class="plan-ready-container">
       <div class="plan-ready-badge">✓</div>
 
-      <h2 class="plan-ready-headline">Your 7-day<br>survival plan<br>is ready.</h2>
+      <h2 class="plan-ready-headline" data-i18n-html="plan.headline">ТВОЙ ПЛАН<br>НА 7 ДНЕЙ ГОТОВ.</h2>
 
       <div class="plan-summary" id="plan-summary"></div>
 
       <div class="plan-stats">
         <div class="plan-stat">
           <span class="stat-number mono">7</span>
-          <span class="stat-label">Days</span>
+          <span class="stat-label" data-i18n="plan.days">Дней</span>
         </div>
         <div class="plan-stat-divider"></div>
         <div class="plan-stat">
           <span class="stat-number mono" id="plan-situations-count">12</span>
-          <span class="stat-label">Situations</span>
+          <span class="stat-label" data-i18n="plan.situations">Ситуаций</span>
         </div>
         <div class="plan-stat-divider"></div>
         <div class="plan-stat">
           <span class="stat-number mono">~15</span>
-          <span class="stat-label">Min / day</span>
+          <span class="stat-label" data-i18n="plan.minday">Мин / день</span>
         </div>
       </div>
 
-      <button class="btn-primary btn-xl" onclick="showView('view-dashboard')">
-        Start Day 1 →
+      <button class="btn-primary btn-xl" onclick="showView('view-dashboard')"
+              data-i18n="plan.cta">
+        Начать День 1 →
       </button>
     </div>
   </section>
@@ -313,80 +315,77 @@
   <section id="view-dashboard" class="view">
     <div class="dashboard">
 
-      <!-- TODAY'S MISSION -->
       <div class="dashboard-mission">
         <div class="mission-meta">
-          <span class="mission-day">DAY 1</span>
-          <span class="mission-tag">PRIORITY</span>
+          <span class="mission-day" data-i18n="dash.day">ДЕНЬ 1</span>
+          <span class="mission-tag" data-i18n="dash.priority">ПРИОРИТЕТ</span>
         </div>
-        <h2 class="mission-title">Airport Survival</h2>
-        <p class="mission-desc">
-          You've just landed. Here's what's going to happen next — and what to say.
+        <h2 class="mission-title" data-i18n="dash.mission.title">Выживание в аэропорту</h2>
+        <p class="mission-desc" data-i18n="dash.mission.desc">
+          Ты только что приземлился. Вот что произойдёт дальше — и что говорить.
         </p>
-        <button class="btn-primary" onclick="showView('view-practice')">
-          Start practice →
+        <button class="btn-primary" onclick="showView('view-practice')"
+                data-i18n="dash.start">
+          Начать практику →
         </button>
       </div>
 
-      <!-- PROGRESS -->
       <div class="dashboard-progress-card">
         <div class="progress-header">
-          <span class="progress-label">Confidence Level</span>
+          <span class="progress-label" data-i18n="dash.confidence">Уровень уверенности</span>
           <span class="progress-value mono">32%</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill" style="width: 32%"></div>
         </div>
         <div class="progress-footer">
-          <span>3 situations completed</span>
-          <span>20 total</span>
+          <span>3 <span data-i18n="dash.progress.done">ситуаций выполнено</span></span>
+          <span>20 <span data-i18n="dash.progress.total">всего</span></span>
         </div>
       </div>
 
-      <!-- QUICK SITUATIONS -->
       <div class="dashboard-section">
-        <h3 class="section-title">Quick situations</h3>
+        <h3 class="section-title" data-i18n="dash.quick.title">Быстрые ситуации</h3>
         <div class="quick-situations">
           <button class="quick-sit-card" onclick="showView('view-practice')">
             <span class="quick-sit-icon">✈️</span>
             <div class="quick-sit-info">
-              <span class="quick-sit-title">Ask for directions</span>
-              <span class="quick-sit-meta">3 min · Beginner</span>
+              <span class="quick-sit-title" data-i18n="dash.sit1">Спросить дорогу</span>
+              <span class="quick-sit-meta">3 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
             </div>
             <span class="quick-sit-arrow">→</span>
           </button>
           <button class="quick-sit-card" onclick="showView('view-practice')">
             <span class="quick-sit-icon">🍔</span>
             <div class="quick-sit-info">
-              <span class="quick-sit-title">Order food at a cafe</span>
-              <span class="quick-sit-meta">5 min · Beginner</span>
+              <span class="quick-sit-title" data-i18n="dash.sit2">Заказать еду в кафе</span>
+              <span class="quick-sit-meta">5 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
             </div>
             <span class="quick-sit-arrow">→</span>
           </button>
           <button class="quick-sit-card" onclick="showView('view-practice')">
             <span class="quick-sit-icon">👋</span>
             <div class="quick-sit-info">
-              <span class="quick-sit-title">Introduce yourself</span>
-              <span class="quick-sit-meta">4 min · Beginner</span>
+              <span class="quick-sit-title" data-i18n="dash.sit3">Представиться</span>
+              <span class="quick-sit-meta">4 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
             </div>
             <span class="quick-sit-arrow">→</span>
           </button>
           <button class="quick-sit-card" onclick="showView('view-practice')">
             <span class="quick-sit-icon">🏠</span>
             <div class="quick-sit-info">
-              <span class="quick-sit-title">Rent an apartment</span>
-              <span class="quick-sit-meta">8 min · Intermediate</span>
+              <span class="quick-sit-title" data-i18n="dash.sit4">Снять квартиру</span>
+              <span class="quick-sit-meta">8 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.intermediate">Средний</span></span>
             </div>
             <span class="quick-sit-arrow">→</span>
           </button>
         </div>
       </div>
 
-      <!-- EMERGENCY PHRASES -->
       <div class="dashboard-section">
         <h3 class="section-title">
-          Emergency phrases
-          <span class="section-tag emergency">ALWAYS USEFUL</span>
+          <span data-i18n="dash.emergency.title">Фразы экстренной помощи</span>
+          <span class="section-tag emergency" data-i18n="dash.emergency.tag">ВСЕГДА ПОЛЕЗНО</span>
         </h3>
         <div class="emergency-phrases">
           <div class="emergency-phrase">
@@ -408,32 +407,25 @@
         </div>
       </div>
 
-      <!-- WEAK AREAS -->
       <div class="dashboard-section">
-        <h3 class="section-title">Areas to strengthen</h3>
+        <h3 class="section-title" data-i18n="dash.weak.title">Области для улучшения</h3>
         <div class="weak-areas">
           <div class="weak-area-item">
             <span class="weak-icon">🎧</span>
-            <span class="weak-name">Listening</span>
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill" style="width: 28%"></div>
-            </div>
+            <span class="weak-name" data-i18n="dash.listening">Слушание</span>
+            <div class="weak-bar-track"><div class="weak-bar-fill" style="width: 28%"></div></div>
             <span class="weak-pct mono">28%</span>
           </div>
           <div class="weak-area-item">
             <span class="weak-icon">🗣️</span>
-            <span class="weak-name">Speaking</span>
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill" style="width: 35%"></div>
-            </div>
+            <span class="weak-name" data-i18n="dash.speaking">Говорение</span>
+            <div class="weak-bar-track"><div class="weak-bar-fill" style="width: 35%"></div></div>
             <span class="weak-pct mono">35%</span>
           </div>
           <div class="weak-area-item">
             <span class="weak-icon">📖</span>
-            <span class="weak-name">Reading</span>
-            <div class="weak-bar-track">
-              <div class="weak-bar-fill" style="width: 62%"></div>
-            </div>
+            <span class="weak-name" data-i18n="dash.reading">Чтение</span>
+            <div class="weak-bar-track"><div class="weak-bar-fill" style="width: 62%"></div></div>
             <span class="weak-pct mono">62%</span>
           </div>
         </div>
@@ -449,14 +441,15 @@
     <div class="practice-container">
 
       <div class="practice-meta">
-        <span class="practice-cat">✈️ AIRPORT SURVIVAL</span>
-        <button class="practice-close" onclick="showView('view-dashboard')">✕ Exit</button>
+        <span class="practice-cat" data-i18n="prac.cat">✈️ ВЫЖИВАНИЕ В АЭРОПОРТУ</span>
+        <button class="practice-close" onclick="showView('view-dashboard')"
+                data-i18n="prac.exit">✕ Выйти</button>
       </div>
 
       <div class="practice-scenario">
         <div class="scenario-person">
           <div class="scenario-avatar">👮</div>
-          <div class="scenario-role">Border Control Officer</div>
+          <div class="scenario-role">Офицер пограничного контроля</div>
         </div>
         <div class="scenario-bubble">
           <p id="scenario-question">What is the purpose of your visit?</p>
@@ -464,30 +457,28 @@
       </div>
 
       <div class="practice-context">
-        <div class="context-tag">SITUATION</div>
+        <div class="context-tag" data-i18n="prac.sit.tag">СИТУАЦИЯ</div>
         <p class="context-text">
-          You've just arrived at passport control. The officer is looking at your documents
-          and waiting for your answer.
+          Ты только что подошёл к паспортному контролю. Офицер смотрит на документы и ждёт ответа.
         </p>
       </div>
 
       <div class="practice-response">
-        <label class="response-label">Your response:</label>
+        <label class="response-label" data-i18n="prac.label">Твой ответ:</label>
         <textarea class="response-input" id="response-input"
-                  placeholder="Type what you would say in this situation…"
+                  placeholder="Напиши, что бы ты сказал в этой ситуации…"
+                  data-i18n-placeholder="prac.placeholder"
                   rows="3"></textarea>
-
         <div class="response-hints">
-          <span class="hint-tag">💡 Tip: Keep it brief and confident</span>
+          <span class="hint-tag">💡 Совет: Будь конкретным и официальным. Назови цель визита.</span>
         </div>
-
-        <button class="btn-primary" onclick="submitResponse()" id="btn-submit-response">
-          Get AI Feedback →
+        <button class="btn-primary" onclick="submitResponse()" data-i18n="prac.submit">
+          Получить обратную связь →
         </button>
       </div>
 
       <div class="scenario-nav">
-        <span class="scenario-counter mono">Question 1 of 4</span>
+        <span class="scenario-counter mono">Вопрос 1 из 4</span>
         <div class="scenario-dots">
           <span class="sdot active"></span>
           <span class="sdot"></span>
@@ -506,13 +497,12 @@
     <div class="feedback-container">
 
       <div class="feedback-header">
-        <span class="feedback-score-badge good" id="feedback-score">Good try</span>
-        <h2 class="feedback-headline">Here's how to<br>say it better.</h2>
+        <span class="feedback-score-badge good" id="feedback-score">Хорошая попытка</span>
+        <h2 class="feedback-headline" data-i18n-html="fb.headline">ВОТ КАК<br>СКАЗАТЬ ЛУЧШЕ.</h2>
       </div>
 
-      <!-- ORIGINAL -->
       <div class="feedback-block feedback-original">
-        <div class="feedback-block-label">YOU SAID</div>
+        <div class="feedback-block-label" data-i18n="fb.yousaid">ВАШ ОТВЕТ</div>
         <p class="feedback-original-text" id="feedback-original-text">I come for study.</p>
         <div class="feedback-issues">
           <span class="issue-tag">grammar</span>
@@ -520,46 +510,45 @@
         </div>
       </div>
 
-      <!-- IMPROVED -->
       <div class="feedback-block feedback-improved">
-        <div class="feedback-block-label">BETTER VERSION</div>
+        <div class="feedback-block-label" data-i18n="fb.better">ЛУЧШИЙ ВАРИАНТ</div>
         <p class="feedback-improved-text" id="feedback-improved-text">
           I'm here to study for a short-term program.
         </p>
-        <button class="feedback-copy"
+        <button class="feedback-copy" data-i18n="fb.copy"
                 onclick="copyPhrase(this, document.getElementById('feedback-improved-text').textContent.trim())">
-          Copy phrase
+          Скопировать
         </button>
       </div>
 
-      <!-- EXPLANATION -->
       <div class="feedback-explanation">
         <div class="explanation-item">
           <span class="exp-icon">📐</span>
           <div class="exp-content">
-            <span class="exp-label">Grammar fix</span>
+            <span class="exp-label" data-i18n="fb.grammar.label">ГРАММАТИКА</span>
             <span class="exp-text" id="exp-grammar">
-              Use "I'm here to" instead of "I come for" — it's the natural construction in English.
+              Используй "I'm here to" — это естественная конструкция.
             </span>
           </div>
         </div>
         <div class="explanation-item">
           <span class="exp-icon">🎯</span>
           <div class="exp-content">
-            <span class="exp-label">Tone</span>
+            <span class="exp-label" data-i18n="fb.tone.label">ТОН</span>
             <span class="exp-text" id="exp-tone">
-              For border control, be specific and formal. Mention the type of program if you know it.
+              Офицеры хотят кратких, уверенных ответов. Назови учреждение если знаешь.
             </span>
           </div>
         </div>
       </div>
 
       <div class="feedback-actions">
-        <button class="btn-secondary" onclick="showView('view-practice')">
-          Try again
+        <button class="btn-secondary" onclick="showView('view-practice')"
+                data-i18n="fb.tryagain">
+          Попробовать снова
         </button>
-        <button class="btn-primary" onclick="nextScenario()">
-          Next question →
+        <button class="btn-primary" onclick="nextScenario()" data-i18n="fb.next">
+          Следующий вопрос →
         </button>
       </div>
 
@@ -567,6 +556,7 @@
   </section>
 
   <script src="js/data.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

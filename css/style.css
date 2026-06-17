@@ -122,6 +122,24 @@ textarea, input {
 
 .nav-back:hover { color: var(--text-primary); }
 
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  padding: 5px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), border-color var(--transition);
+  cursor: pointer;
+  background: transparent;
+}
+.lang-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
 .nav-step-indicator {
   display: flex;
   gap: 6px;
