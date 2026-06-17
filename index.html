@@ -25,7 +25,10 @@
         <span class="step-dot"></span>
         <span class="step-dot"></span>
       </div>
-      <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" data-i18n="lang.toggle">EN</button>
+      <div class="lang-switcher-pills">
+        <button class="lang-pill" id="lang-pill-ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-pill" id="lang-pill-en" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </nav>
 
@@ -34,15 +37,9 @@
        ===================================================================== -->
   <section id="view-landing" class="view active">
     <div class="hero">
-      <div class="hero-top-row">
-        <div class="hero-tag">
-          <span class="tag-dot"></span>
-          <span data-i18n="hero.tag">ПЛАТФОРМА ВЫЖИВАНИЯ НА АНГЛИЙСКОМ</span>
-        </div>
-        <div class="lang-switcher-pills">
-          <button class="lang-pill" id="lang-pill-ru" onclick="setLang('ru')">RU</button>
-          <button class="lang-pill" id="lang-pill-en" onclick="setLang('en')">EN</button>
-        </div>
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        <span data-i18n="hero.tag">ПЛАТФОРМА ВЫЖИВАНИЯ НА АНГЛИЙСКОМ</span>
       </div>
 
       <h1 class="hero-headline">

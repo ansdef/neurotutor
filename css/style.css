@@ -141,14 +141,6 @@ textarea, input {
 }
 
 /* Lang switcher pills — landing hero */
-.hero-top-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 0;
-}
-
 .lang-switcher-pills {
   display: flex;
   align-items: center;
