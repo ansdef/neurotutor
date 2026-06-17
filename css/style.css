@@ -140,6 +140,49 @@ textarea, input {
   border-color: var(--border-accent);
 }
 
+/* Lang switcher pills — landing hero */
+.hero-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+.lang-switcher-pills {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.lang-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: color var(--transition), background var(--transition);
+}
+
+.lang-pill:hover {
+  color: var(--text-secondary);
+}
+
+.lang-pill.active {
+  background: var(--accent-orange);
+  color: #fff;
+}
+
 .nav-step-indicator {
   display: flex;
   gap: 6px;

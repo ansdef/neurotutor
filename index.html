@@ -25,7 +25,7 @@
         <span class="step-dot"></span>
         <span class="step-dot"></span>
       </div>
-      <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()">EN</button>
+      <button class="lang-toggle" id="lang-toggle" onclick="toggleLang()" data-i18n="lang.toggle">EN</button>
     </div>
   </nav>
 
@@ -34,9 +34,15 @@
        ===================================================================== -->
   <section id="view-landing" class="view active">
     <div class="hero">
-      <div class="hero-tag">
-        <span class="tag-dot"></span>
-        <span data-i18n="hero.tag">ПЛАТФОРМА ВЫЖИВАНИЯ НА АНГЛИЙСКОМ</span>
+      <div class="hero-top-row">
+        <div class="hero-tag">
+          <span class="tag-dot"></span>
+          <span data-i18n="hero.tag">ПЛАТФОРМА ВЫЖИВАНИЯ НА АНГЛИЙСКОМ</span>
+        </div>
+        <div class="lang-switcher-pills">
+          <button class="lang-pill" id="lang-pill-ru" onclick="setLang('ru')">RU</button>
+          <button class="lang-pill" id="lang-pill-en" onclick="setLang('en')">EN</button>
+        </div>
       </div>
 
       <h1 class="hero-headline">
@@ -320,10 +326,8 @@
           <span class="mission-day" data-i18n="dash.day">ДЕНЬ 1</span>
           <span class="mission-tag" data-i18n="dash.priority">ПРИОРИТЕТ</span>
         </div>
-        <h2 class="mission-title" data-i18n="dash.mission.title">Выживание в аэропорту</h2>
-        <p class="mission-desc" data-i18n="dash.mission.desc">
-          Ты только что приземлился. Вот что произойдёт дальше — и что говорить.
-        </p>
+        <h2 class="mission-title" id="dash-mission-title">Выживание в аэропорту</h2>
+        <p class="mission-desc" id="dash-mission-desc">Ты только что приземлился. Вот что произойдёт дальше — и что говорить.</p>
         <button class="btn-primary" onclick="showView('view-practice')"
                 data-i18n="dash.start">
           Начать практику →
@@ -346,39 +350,8 @@
 
       <div class="dashboard-section">
         <h3 class="section-title" data-i18n="dash.quick.title">Быстрые ситуации</h3>
-        <div class="quick-situations">
-          <button class="quick-sit-card" onclick="showView('view-practice')">
-            <span class="quick-sit-icon">✈️</span>
-            <div class="quick-sit-info">
-              <span class="quick-sit-title" data-i18n="dash.sit1">Спросить дорогу</span>
-              <span class="quick-sit-meta">3 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
-            </div>
-            <span class="quick-sit-arrow">→</span>
-          </button>
-          <button class="quick-sit-card" onclick="showView('view-practice')">
-            <span class="quick-sit-icon">🍔</span>
-            <div class="quick-sit-info">
-              <span class="quick-sit-title" data-i18n="dash.sit2">Заказать еду в кафе</span>
-              <span class="quick-sit-meta">5 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
-            </div>
-            <span class="quick-sit-arrow">→</span>
-          </button>
-          <button class="quick-sit-card" onclick="showView('view-practice')">
-            <span class="quick-sit-icon">👋</span>
-            <div class="quick-sit-info">
-              <span class="quick-sit-title" data-i18n="dash.sit3">Представиться</span>
-              <span class="quick-sit-meta">4 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.beginner">Начинающий</span></span>
-            </div>
-            <span class="quick-sit-arrow">→</span>
-          </button>
-          <button class="quick-sit-card" onclick="showView('view-practice')">
-            <span class="quick-sit-icon">🏠</span>
-            <div class="quick-sit-info">
-              <span class="quick-sit-title" data-i18n="dash.sit4">Снять квартиру</span>
-              <span class="quick-sit-meta">8 <span data-i18n="dash.min">мин</span> · <span data-i18n="dash.intermediate">Средний</span></span>
-            </div>
-            <span class="quick-sit-arrow">→</span>
-          </button>
+        <div class="quick-situations" id="quick-situations-list">
+          <!-- built by buildDashboard() -->
         </div>
       </div>
 

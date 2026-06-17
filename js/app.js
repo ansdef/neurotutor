@@ -58,34 +58,38 @@ function updateNav(viewId) {
 /* =====================================================
    LANGUAGE TOGGLE
    ===================================================== */
-function toggleLang() {
-  const newLang = LANG.current === 'ru' ? 'en' : 'ru';
-  LANG.set(newLang);
+function setLang(lang) {
+  LANG.set(lang);
   applyTranslations();
+  updateLangPills();
 
   const activeView = document.querySelector('.view.active');
   if (!activeView) return;
   const vid = activeView.id;
-
-  if (vid === 'view-onboard-3') {
-    updateStress(document.getElementById('stress-slider').value);
-  }
-  if (vid === 'view-practice') {
-    loadScenario(AIRPORT_SCENARIOS[state.currentScenarioIndex]);
-  }
+  if (vid === 'view-onboard-3') updateStress(document.getElementById('stress-slider').value);
+  if (vid === 'view-dashboard') buildDashboard();
+  if (vid === 'view-practice') loadScenario(AIRPORT_SCENARIOS[state.currentScenarioIndex]);
   if (vid === 'view-feedback') {
     const scenario = AIRPORT_SCENARIOS[state.currentScenarioIndex];
-    const lang = LANG.current;
     document.getElementById('exp-grammar').textContent =
       lang === 'ru' ? scenario.feedback.grammarNoteRu : scenario.feedback.grammarNote;
     document.getElementById('exp-tone').textContent =
       lang === 'ru' ? scenario.feedback.toneNoteRu : scenario.feedback.toneNote;
     if (state.lastFeedbackScore) {
       const scoreKey = { good: 'fb.score.good', great: 'fb.score.great', 'needs-work': 'fb.score.needswork' };
-      const badge = document.getElementById('feedback-score');
-      badge.textContent = LANG.t(scoreKey[state.lastFeedbackScore]);
+      document.getElementById('feedback-score').textContent = LANG.t(scoreKey[state.lastFeedbackScore]);
     }
   }
+}
+
+function toggleLang() {
+  setLang(LANG.current === 'ru' ? 'en' : 'ru');
+}
+
+function updateLangPills() {
+  const lang = LANG.current;
+  document.getElementById('lang-pill-ru')?.classList.toggle('active', lang === 'ru');
+  document.getElementById('lang-pill-en')?.classList.toggle('active', lang === 'en');
 }
 
 /* =====================================================
@@ -148,7 +152,30 @@ function buildPlan() {
   `).join('');
 
   document.getElementById('plan-situations-count').textContent = 8 + state.situations.size * 2;
+  buildDashboard();
   showView('view-plan-ready');
+}
+
+function buildDashboard() {
+  const data = DASHBOARD_BY_GOAL[state.goal] || DASHBOARD_BY_GOAL.moving;
+  const lang = LANG.current;
+
+  document.getElementById('dash-mission-title').textContent =
+    lang === 'ru' ? data.missionTitleRu : data.missionTitle;
+  document.getElementById('dash-mission-desc').textContent =
+    lang === 'ru' ? data.missionDescRu : data.missionDesc;
+
+  const levelKey = { beginner: 'dash.beginner', intermediate: 'dash.intermediate' };
+  document.getElementById('quick-situations-list').innerHTML = data.situations.map(s => `
+    <button class="quick-sit-card" onclick="showView('view-practice')">
+      <span class="quick-sit-icon">${s.icon}</span>
+      <div class="quick-sit-info">
+        <span class="quick-sit-title">${lang === 'ru' ? s.titleRu : s.title}</span>
+        <span class="quick-sit-meta">${s.min} ${LANG.t('dash.min')} · ${LANG.t(levelKey[s.level])}</span>
+      </div>
+      <span class="quick-sit-arrow">→</span>
+    </button>
+  `).join('');
 }
 
 /* =====================================================
@@ -286,6 +313,7 @@ function startDepartureBoard() {
    ===================================================== */
 document.addEventListener('DOMContentLoaded', () => {
   applyTranslations();
+  updateLangPills();
   updateStress(0);
   startDepartureBoard();
 });

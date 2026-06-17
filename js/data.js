@@ -104,6 +104,57 @@ const AIRPORT_SCENARIOS = [
   },
 ];
 
+const DASHBOARD_BY_GOAL = {
+  moving: {
+    missionTitle: 'Airport Survival',
+    missionTitleRu: 'Выживание в аэропорту',
+    missionDesc: "You've just landed. Here's what's going to happen next — and what to say.",
+    missionDescRu: 'Ты только что приземлился. Вот что произойдёт дальше — и что говорить.',
+    situations: [
+      { icon: '✈️', title: 'Check-in & boarding',    titleRu: 'Регистрация на рейс',    min: 5, level: 'beginner' },
+      { icon: '👮', title: 'Passport control',         titleRu: 'Паспортный контроль',    min: 4, level: 'beginner' },
+      { icon: '🏠', title: 'Rent an apartment',        titleRu: 'Снять квартиру',         min: 8, level: 'intermediate' },
+      { icon: '📱', title: 'Get a SIM card',           titleRu: 'Купить SIM-карту',       min: 3, level: 'beginner' },
+    ],
+  },
+  study: {
+    missionTitle: 'Campus First Day',
+    missionTitleRu: 'Первый день в кампусе',
+    missionDesc: "Your first day at university. Navigate admin, meet your advisor, get settled.",
+    missionDescRu: 'Первый день в университете. Деканат, куратор, общежитие.',
+    situations: [
+      { icon: '🏫', title: 'Admin office check-in',   titleRu: 'Регистрация в деканате',  min: 6, level: 'beginner' },
+      { icon: '👥', title: 'Meet classmates',          titleRu: 'Познакомиться с группой', min: 4, level: 'beginner' },
+      { icon: '📚', title: 'Ask a professor',          titleRu: 'Вопрос преподавателю',    min: 5, level: 'intermediate' },
+      { icon: '🏠', title: 'Dorm check-in',            titleRu: 'Заселение в общежитие',   min: 7, level: 'beginner' },
+    ],
+  },
+  work: {
+    missionTitle: 'Office First Day',
+    missionTitleRu: 'Первый день в офисе',
+    missionDesc: "Starting at a new company. Introductions, small talk, and your first meeting.",
+    missionDescRu: 'Начало в новой компании. Знакомства, светская беседа и первая встреча.',
+    situations: [
+      { icon: '🤝', title: 'Introduce yourself',      titleRu: 'Представиться команде',   min: 5, level: 'beginner' },
+      { icon: '🏢', title: 'Meet your manager',       titleRu: 'Встреча с менеджером',    min: 6, level: 'intermediate' },
+      { icon: '💬', title: 'Office small talk',       titleRu: 'Светская беседа в офисе', min: 4, level: 'beginner' },
+      { icon: '📧', title: 'Write a work email',      titleRu: 'Деловое письмо',          min: 8, level: 'intermediate' },
+    ],
+  },
+  travel: {
+    missionTitle: 'Hotel Check-in',
+    missionTitleRu: 'Заселение в отель',
+    missionDesc: "You've arrived. Navigate hotel check-in and your first evening abroad.",
+    missionDescRu: 'Ты добрался. Заселение в отель и первый вечер.',
+    situations: [
+      { icon: '🏨', title: 'Hotel check-in',          titleRu: 'Заселение в отель',       min: 4, level: 'beginner' },
+      { icon: '🍔', title: 'Order at a cafe',         titleRu: 'Заказать в кафе',         min: 5, level: 'beginner' },
+      { icon: '🗺️', title: 'Ask for directions',     titleRu: 'Спросить дорогу',         min: 3, level: 'beginner' },
+      { icon: '🛍️', title: 'Shop at a store',        titleRu: 'Покупки в магазине',      min: 6, level: 'intermediate' },
+    ],
+  },
+};
+
 const PLAN_ITEMS_BY_GOAL = {
   moving: [
     { icon: '✈️', label: '<strong>Day 1–2:</strong> Airport & first hours',          labelRu: '<strong>День 1–2:</strong> Аэропорт и первые часы' },
