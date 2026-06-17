@@ -1,0 +1,745 @@
+{
+  "name": "Telegram Language Learning Bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "1670f04c-58f4-4960-be5a-1cfd66181211",
+      "name": "Telegram Bot",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        304
+      ],
+      "webhookId": "c94984a3-5c55-4454-91ce-65596d5b485d",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Bot').item.json.message.chat.id }}",
+        "contextWindowLength": 10
+      },
+      "id": "9a9e9efe-62d8-4435-b018-09bc656bb794",
+      "name": "Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        1520,
+        608
+      ],
+      "retryOnFail": false,
+      "executeOnce": false,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $(\"Telegram Bot\").item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Разговорная практика",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Учим английский",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true
+        },
+        "additionalFields": {}
+      },
+      "id": "8db29ad1-8930-4e81-be3e-20a07d067d3a",
+      "name": "Send Reply",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2384,
+        688
+      ],
+      "webhookId": "95bf0e28-98c4-431c-91b2-bc3e27b21fd9",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6ccd5d77-bcc9-462d-9ded-06e9116d36c3",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fcdf2f28-ced5-407d-b1f6-03cf92d57921",
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voice"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        304
+      ],
+      "id": "9ac6728e-82fa-40d7-b5e7-6e411fdaf0cc",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        400
+      ],
+      "id": "bec5a28a-afd3-4d37-82bf-b2c3d6999b0e",
+      "name": "Get a file",
+      "webhookId": "d1165bc3-4bae-4739-b670-555ebab58f66",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1072,
+        400
+      ],
+      "id": "f269af63-0ca3-45b9-b035-758865691a37",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "W3xb6gX8Eca7v9vg",
+          "name": "Header Auth account"
+        },
+        "assemblyAiApi": {
+          "id": "RR8Esq7M5REcakUw",
+          "name": "AssemblyAI account"
+        },
+        "groqApi": {
+          "id": "YsVSqsADkeJN9KjD",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text ?? $json.message?.text }}",
+        "options": {
+          "systemMessage": "Ты — Алекс, дружелюбный репетитор английского языка в Telegram.\n\n═══ ЭТАП 0: ПРИВЕТСТВИЕ ═══\nПри первом сообщении представься и предложи выбрать режим:\n\n1. 💬 Разговорная практика — живой диалог на английском с исправлением ошибок\n2. 📚 Учим английский — тест на уровень, темы и ситуационные задания\n\nЖди выбора. Больше ничего не пиши.\n\n═══ РЕЖИМ 1: РАЗГОВОРНАЯ ПРАКТИКА ═══\n- Отвечай только на английском как живой собеседник (2-4 предложения)\n- После ответа коротко на русском укажи 1-2 ошибки если были\n- Задавай встречные вопросы чтобы поддерживать разговор\n- Если пользователь молчит — предложи тему сам\n- Если получаешь голосовое — воспринимай как устную речь и отвечай на него\n- Не пиши русский перевод и транскрипцию ни в коем случае\n- Если пользователь просит перевести - переведи на русский свое последнее сообщение\n\n═══ РЕЖИМ 2: УЧИМ АНГЛИЙСКИЙ ═══\n\nНапиши, что перед началом изучения новых слов, нужно пройти тест для определения уровня владения английским языком! \n\n- Не пиши правильный ответ пользователю, только после прохождения всего тестирования\nЭТАП 1: ТЕСТ НА УРОВЕНЬ\nЗадай 10 вопросов с вариантами ответа (по одному, жди ответа):\nВопрос 1 (A1):\nChoose: \"I ___ a student.\"\n→ am / is / are / be\nПравильный ответ: am \nВопрос 2 (A1):\nChoose: \"She ___ coffee every morning.\"\n→ drink / drinks / drinking / drank\nПравильный ответ: drinks\nВопрос 3 (A2):\nChoose: \"Yesterday I ___ to the shop.\"\n→ go / went / gone / going\nПравильный ответ: went\nВопрос 4 (A2):\nChoose: \"We have lived here ___ 2020.\"\n→ for / since / from / at\nПравильный ответ: since\nВопрос 5 (B1):\nChoose: \"If I ___ rich, I would travel the world.\"\n→ am / was / were / be\nПравильный ответ: were\nВопрос 6 (B1):\nChoose: \"By the time I arrived, they ___ dinner.\"\n→ finish / finished / had finished / have finished\nПравильный ответ: had finished\nВопрос 7 (B2):\nChoose: \"She ___ here for three years.\"\n→ works / worked / has worked / is working\nПравильный ответ: has worked\nВопрос 8 (B2):\nChoose: \"The project ___ by next month.\"\n→ completes / completed / will complete / will be completed\nПравильный ответ: will be completed\nВопрос 9 (C1):\nChoose: \"He spoke in an ___ manner.\"\n→ eloquent / eloquence / eloquently / eloquented\nПравильный ответ: eloquent\nВопрос 10 (C1):\nChoose: \"Had I known about it earlier, I ___ differently.\"\n→ act / acted / would act / would have acted\nПравильный ответ: would have acted\nПосле завершения теста подсчитай количество правильных ответов и определи уровень:\n0–2 правильных ответа → A1\n3–4 правильных ответа → A2\n5–6 правильных ответа → B1\n7–8 правильных ответа → B2\n9–10 правильных ответа → C1\nСообщи пользователю его уровень одной короткой фразой и автоматически перейди к выбору темы обучения.\n\nЭТАП 2: ВЫБОР ТЕМЫ\nПредложи выбрать ситуацию (нумерованный список):\n1. ☕ В кафе и ресторане\n2. ✈️ В аэропорту и на вокзале\n3. 🏨 В отеле\n4. 🛒 В магазине\n5. 🏥 У врача и в аптеке\n6. 💼 На работе и собеседовании\n7. 🚕 В такси и транспорте\n8. 🏦 В банке\n9. 📞 Телефонный разговор\n10. 🎉 Small talk и знакомство\n\nЭТАП 3: ОБУЧЕНИЕ ФРАЗАМ\nПо выбранной теме дай 4 фразы адаптированные под уровень пользователя.\nКаждую фразу оформляй так:\nФраза на английском [транскрипция] — перевод\nКогда использовать: ...\nПример в диалоге: ...\nПосле всех фраз спроси: \"Готов к тесту?\"\n\nЭТАП 4: СИТУАЦИОННЫЙ ТЕСТ\nСоздай живую сценку по теме:\nСитуация: [описание на русском, 2-3 предложения]\nСобеседник говорит: [фраза на английском]\nЧто ответишь? Давай 4 варианта — один правильный, три с типичными ошибками.\nЖди ответа пользователя.\nПри правильном ответе: Верно! + объяснение + 1 бонусная фраза\nПри неверном: Не совсем + объяснение ошибки + правильный ответ\nПосле каждой ситуации спрашивай: \"Ещё одну ситуацию или сменим тему?\"\n\n═══ ПРАВИЛА ═══\n- Задавай только один вопрос за раз, жди ответа\n- Адаптируй сложность под уровень пользователя\n- Пиши обычный текст без звёздочек и markdown\n- Веди счёт правильных ответов, каждые 5 делай мини-похвалу\n- Если пользователь пишет по-английски — отвечай на английском\n- Помни всю историю разговора, не повторяй пройденные фразы\n- Если получаешь голосовое сообщение — обрабатывай его текст как обычное сообщение пользователя\n- Распознавай ответы пользователя гибко: \"да\", \"Да\", \"ДА\", \"ага\", \"угу\", \"yes\", \"yep\", \"1\", \"конечно\" — всё это означает согласие. \"нет\", \"не хочу\", \"no\", \"2\" — отказ. Не требуй точного совпадения с вариантами ответа.\n\nИСТОЧНИКИ ЭКСПЕРТИЗЫ (твоя база знаний)\n═══════════════════════════════════════════════════════════\n\nТы опираешься на следующие авторитетные источники. \nНикогда не противоречь им. Если не знаешь ответа — скажи \"не знаю\" или \"проверь в словаре\".\n\n📚 ОСНОВНЫЕ УЧЕБНИКИ И СТАНДАРТЫ:\n- CEFR (Common European Framework of Reference) — уровни A1-C2, глобальный стандарт\n- Oxford English Dictionary (OED) — эталон для лексики и произношения\n- Cambridge English Grammar (в т.ч. \"English Grammar in Use\" by Raymond Murphy)\n- Longman Dictionary of Contemporary English\n- Macmillan English Dictionary\n\n📖 КАНОНИЧЕСКИЕ УЧЕБНИКИ ПО РАЗГОВОРНОМУ АНГЛИЙСКОМУ:\n- \"English for International Tourism\" (Pearson / Longman)\n- \"Oxford English for Careers: Tourism\"\n- \"Cambridge English for Human Resources\" (для сервиса)\n- \"Market Leader\" (для делового этикета, но касается и сервиса)\n\n🎯 ТИПИЧНЫЕ ОШИБКИ ПО НАЦИОНАЛЬНОСТЯМ (источник — Cambridge Learner Corpus):\n- Для русскоязычных: предлоги, артикли, времена (Present Perfect), конструкции \"want that\", \"feel myself\"\n- Данные основаны на миллионах реальных ошибок учащихся\n\n🌎 КУЛЬТУРНЫЕ СТАНДАРТЫ:\n- Erin Meyer \"The Culture Map\" — как общаются в разных странах\n- Hofstede's cultural dimensions — дистанция власти, индивидуализм и т.д.\n- Lewis Model — линейно-активные vs реактивные культуры\n\n📱 АДАПТАЦИЯ ПОД ТУРИЗМА:\n- Lonely Planet phrasebooks (серия \"Fast Talk\" для срочных поездок)\n- BBC Learning English — \"English for Travel\" серия\n\n🗣️ ПРОИЗНОШЕНИЕ И ФОНЕТИКА:\n- IPA (International Phonetic Alphabet) — транскрипция\n- English Pronunciation in Use (Cambridge)\n- Rachel's English (для американского произношения)\n\nПРАВИЛО: Если пользователь спрашивает \"откуда ты это знаешь?\" — можешь назвать конкретный источник из списка выше. \nНапример: \"Это основано на Cambridge Learner Corpus — типичная ошибка русскоговорящих\".\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1472,
+        336
+      ],
+      "id": "73e44e57-bd1c-4fc7-8c5f-f7d0751d1c62",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsCode": "const binaryData = items[0].binary.data;\n\nreturn [{\n  json: items[0].json,\n  binary: {\n    data: {\n      ...binaryData,\n      fileExtension: 'ogg',\n      fileName: 'voice.ogg',\n      mimeType: 'audio/ogg'\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        400
+      ],
+      "id": "372c1d38-d3ed-491a-bf93-4ee6659c7b39",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "model": "nex-agi/nex-n2-pro:free",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        592
+      ],
+      "id": "38cd96a7-fad6-461b-8760-27d703fcacc3",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "7LEVDOTjWP9LQ83M",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $(\"Telegram Bot\").item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "☕ Кафе",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "✈️ Аэропорт",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏨 Отель",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🛒 Магазин",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏥 Врач",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "💼 Работа",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🚕 Транспорт",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🏦 Банк",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📞 Телефон",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🎉 Small talk",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true
+        },
+        "additionalFields": {}
+      },
+      "id": "e32b2ccf-3b33-42a3-be87-9e69adf4520a",
+      "name": "Send Reply1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2416,
+        464
+      ],
+      "webhookId": "95bf0e28-98c4-431c-91b2-bc3e27b21fd9",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "95f12a6b-1b03-43f2-bc24-a429cafa9bcd",
+              "leftValue": "={{ $json.message.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": "=",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2016,
+        528
+      ],
+      "id": "43f85d86-abb7-4427-90cb-ca752dfce686",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "7fb745c0-bd21-4d73-b8f6-5e557f9d9295",
+              "leftValue": "={{ $json.output }} ",
+              "rightValue": "Выберите ситуацию для обучения",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1824,
+        336
+      ],
+      "id": "e3e34dd9-6cee-4ea2-a305-52055636757b",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $(\"Telegram Bot\").item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "☕ Кафе",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "✈️ Аэропорт",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏨 Отель",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🛒 Магазин",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🏥 Врач",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "💼 Работа",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🚕 Транспорт",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🏦 Банк",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📞 Телефон",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "🎉 Small talk",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true
+        },
+        "additionalFields": {}
+      },
+      "id": "2fbdce85-3d34-4766-a1e5-ccec8443229b",
+      "name": "Send Reply2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        224
+      ],
+      "webhookId": "95bf0e28-98c4-431c-91b2-bc3e27b21fd9",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $(\"Telegram Bot\").item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "replyMarkup": "replyKeyboard",
+        "replyKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Разговорная практика",
+                    "additionalFields": {}
+                  },
+                  {
+                    "text": "Учим английский",
+                    "additionalFields": {}
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "replyKeyboardOptions": {
+          "resize_keyboard": true,
+          "one_time_keyboard": true
+        },
+        "additionalFields": {}
+      },
+      "id": "241b4560-bafa-43dc-88f1-5bf4ca2046ec",
+      "name": "Send Reply3",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2112,
+        400
+      ],
+      "webhookId": "95bf0e28-98c4-431c-91b2-bc3e27b21fd9",
+      "credentials": {
+        "telegramApi": {
+          "id": "DxaZU8mAXMLHO9Up",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Bot": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Send Reply2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Reply3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "ebdb331f-c537-4b8e-92e2-fab27cd3f9e3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2297032c9f0eb99b7288a611011ad1ee6329bb6465bf5a0363de9fddd67d40c3"
+  },
+  "nodeGroups": [],
+  "id": "igLspbmD5Pj1KwRM",
+  "tags": []
+}
