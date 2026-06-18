@@ -188,7 +188,7 @@ function getScenarios() {
   return SCENARIOS_BY_GOAL[state.goal] || SCENARIOS_BY_GOAL.moving;
 }
 
-function submitResponse() {
+async function submitResponse() {
   const input = document.getElementById('response-input');
   const text = input.value.trim();
   if (!text) {
@@ -197,10 +197,39 @@ function submitResponse() {
     setTimeout(() => { input.style.borderColor = ''; }, 1500);
     return;
   }
+
   const scenarios = getScenarios();
   const scenario = scenarios[state.currentScenarioIndex] || scenarios[0];
-  renderFeedback(text, scenario);
+
+  const btn = document.querySelector('#view-practice [onclick*="submitResponse"]');
+  btn.disabled = true;
+  btn.textContent = LANG.current === 'ru' ? '⏳ Анализирую...' : '⏳ Analyzing...';
+
   showView('view-feedback');
+  document.querySelector('.feedback-container').classList.add('is-loading');
+
+  try {
+    const ai = await getAIFeedback(text, scenario);
+    renderFeedback(text, {
+      ...scenario,
+      feedback: {
+        score: ai.score || 'good',
+        improved: ai.improved || scenario.feedback.improved,
+        grammarNote: ai.grammarNote || scenario.feedback.grammarNote,
+        grammarNoteRu: ai.grammarNoteRu || scenario.feedback.grammarNoteRu,
+        toneNote: ai.toneNote || scenario.feedback.toneNote,
+        toneNoteRu: ai.toneNoteRu || scenario.feedback.toneNoteRu,
+        issues: ai.issues || [],
+      },
+    });
+  } catch (err) {
+    console.warn('AI fallback:', err.message);
+    renderFeedback(text, scenario);
+  } finally {
+    document.querySelector('.feedback-container').classList.remove('is-loading');
+    btn.disabled = false;
+    btn.textContent = LANG.t('prac.submit');
+  }
 }
 
 function renderFeedback(userText, scenario) {

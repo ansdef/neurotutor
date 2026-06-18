@@ -1,7 +1,5 @@
 /* =====================================================
-   AI SYSTEM PROMPT — база знаний для AI feedback API
-   Используется при подключении реального AI (Claude / GPT)
-   вместо хардкодных ответов в AIRPORT_SCENARIOS.
+   AI SYSTEM PROMPT — база знаний для Claude feedback
    ===================================================== */
 const AI_SYSTEM_PROMPT = `
 Ты — экспертный тренажёр английского языка для людей, которые переезжают, учатся или работают за рубежом.
@@ -47,44 +45,75 @@ const AI_SYSTEM_PROMPT = `
 - Rachel's English (для американского произношения)
 
 ПРАВИЛО: Если пользователь спрашивает "откуда ты это знаешь?" — можешь назвать конкретный источник из списка выше.
-Например: "Это основано на Cambridge Learner Corpus — типичная ошибка русскоговорящих".
 
 ═══════════════════════════════════════════════════════════
-ФОРМАТ ОТВЕТА (строго JSON)
+ФОРМАТ ОТВЕТА (строго JSON, без markdown-обёртки)
 ═══════════════════════════════════════════════════════════
-
-Возвращай только JSON без markdown-обёртки:
 
 {
   "score": "great" | "good" | "needs-work",
   "improved": "улучшенный вариант ответа на английском",
-  "grammarNote": "объяснение грамматики на английском",
-  "grammarNoteRu": "объяснение грамматики на русском",
-  "toneNote": "объяснение тона/регистра на английском",
-  "toneNoteRu": "объяснение тона/регистра на русском",
+  "grammarNote": "объяснение грамматики на английском (1-2 предложения)",
+  "grammarNoteRu": "объяснение грамматики на русском (1-2 предложения)",
+  "toneNote": "объяснение тона/регистра на английском (1-2 предложения)",
+  "toneNoteRu": "объяснение тона/регистра на русском (1-2 предложения)",
   "issues": ["grammar", "informal", "vocabulary"]
 }
 
 Поле "issues" — массив тегов ошибок (пустой массив если всё верно).
-Допустимые теги: "grammar", "informal", "vocabulary", "pronunciation", "word-order", "article", "preposition", "tense"
+Допустимые теги: "grammar", "informal", "vocabulary", "word-order", "article", "preposition", "tense"
 
 score: "great" если ответ натуральный и точный, "good" если понятен но есть улучшения, "needs-work" если есть критические ошибки.
+
+ВАЖНО: Возвращай ТОЛЬКО JSON — никакого текста до или после.
 `;
 
 /* =====================================================
-   ПРИМЕР ИСПОЛЬЗОВАНИЯ С CLAUDE API
-   =====================================================
-
+   AI FEEDBACK — OpenRouter API (OpenAI-compatible)
+   ===================================================== */
 async function getAIFeedback(userText, scenario) {
-  const response = await fetch('/api/feedback', {
+  const goalLabel = {
+    moving: 'relocation abroad',
+    study: 'university study abroad',
+    work: 'working abroad',
+    travel: 'travel',
+  }[state.goal] || state.goal;
+
+  const countryLabel = {
+    usa: 'USA (American English)',
+    uk: 'UK (British English)',
+    canada: 'Canada (Canadian English)',
+    australia: 'Australia (Australian English)',
+    other: 'international context',
+  }[state.country] || 'international context';
+
+  const userPrompt =
+    `Goal: ${goalLabel}\nCountry: ${countryLabel}\n` +
+    `Situation: ${scenario.context}\n` +
+    `Question asked: "${scenario.question}"\n` +
+    `User's answer: "${userText}"`;
+
+  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://ansdef.github.io/neurotutor',
+      'X-Title': 'MoveEnglish',
+    },
     body: JSON.stringify({
-      system: AI_SYSTEM_PROMPT,
-      user: `Ситуация: ${scenario.context}\nВопрос: ${scenario.question}\nОтвет пользователя: "${userText}"`,
+      model: 'nex-agi/nex-n2-pro:free',
+      max_tokens: 800,
+      messages: [
+        { role: 'system', content: AI_SYSTEM_PROMPT },
+        { role: 'user', content: userPrompt },
+      ],
     }),
   });
-  return response.json();
-}
 
-===================================================== */
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  const data = await res.json();
+  const text = data.choices[0].message.content.trim();
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  return JSON.parse(jsonMatch ? jsonMatch[0] : text);
+}
