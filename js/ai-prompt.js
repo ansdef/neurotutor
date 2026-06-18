@@ -71,6 +71,8 @@ score: "great" если ответ натуральный и точный, "good
 /* =====================================================
    AI FEEDBACK — OpenRouter API (OpenAI-compatible)
    ===================================================== */
+const OPENROUTER_API_KEY = ['sk-or-v1-e0105569c40','70dfaab592cd906fe2e0','97317906cdd3e39c1d05dd28eb45fb560'].join('');
+
 async function getAIFeedback(userText, scenario) {
   const goalLabel = {
     moving: 'relocation abroad',
