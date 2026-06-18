@@ -205,6 +205,15 @@ async function submitResponse() {
   btn.disabled = true;
   btn.textContent = LANG.current === 'ru' ? '⏳ Анализирую...' : '⏳ Analyzing...';
 
+  // Clear stale content before showing
+  document.getElementById('feedback-score').textContent = '...';
+  document.getElementById('feedback-score').className = 'feedback-score-badge';
+  document.getElementById('feedback-original-text').textContent = `"${text}"`;
+  document.getElementById('feedback-improved-text').textContent = '...';
+  document.getElementById('exp-grammar').textContent = '...';
+  document.getElementById('exp-tone').textContent = '...';
+  document.querySelector('.feedback-issues').innerHTML = '';
+
   showView('view-feedback');
   document.querySelector('.feedback-container').classList.add('is-loading');
 
