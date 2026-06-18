@@ -122,6 +122,59 @@ textarea, input {
 
 .nav-back:hover { color: var(--text-primary); }
 
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  padding: 5px 10px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), border-color var(--transition);
+  cursor: pointer;
+  background: transparent;
+}
+.lang-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--border-accent);
+}
+
+/* Lang switcher pills — landing hero */
+.lang-switcher-pills {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-default);
+  border-radius: 20px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.lang-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: color var(--transition), background var(--transition);
+}
+
+.lang-pill:hover {
+  color: var(--text-secondary);
+}
+
+.lang-pill.active {
+  background: var(--accent-orange);
+  color: #fff;
+}
+
 .nav-step-indicator {
   display: flex;
   gap: 6px;
@@ -1112,6 +1165,70 @@ textarea, input {
   border-color: var(--border-default);
 }
 
+.country-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  background: rgba(79, 168, 216, 0.07);
+  border: 1px solid rgba(79, 168, 216, 0.2);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.country-note-flag {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.country-note-tip {
+  color: var(--text-secondary);
+  flex: 1;
+  min-width: 0;
+}
+
+.country-note-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-blue);
+  padding: 2px 8px;
+  border: 1px solid rgba(79, 168, 216, 0.35);
+  border-radius: 20px;
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+  background: transparent;
+}
+.country-note-toggle:hover {
+  background: rgba(79, 168, 216, 0.12);
+}
+
+.country-note-vocab {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(79, 168, 216, 0.15);
+  margin-top: 4px;
+}
+
+.vocab-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-blue);
+  background: rgba(79, 168, 216, 0.1);
+  border: 1px solid rgba(79, 168, 216, 0.2);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
 .practice-scenario {
   display: flex;
   gap: 16px;
@@ -1460,4 +1577,25 @@ textarea, input {
   .practice-container { padding: 20px 16px 64px; }
   .feedback-container { padding: 24px 16px 64px; }
   .hero { padding: 36px 16px 40px; }
+}
+
+
+/* ==========================================
+   AI LOADING STATE
+   ========================================== */
+@keyframes ai-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.15; }
+}
+
+.feedback-container.is-loading .feedback-score-badge,
+.feedback-container.is-loading .feedback-improved-text,
+.feedback-container.is-loading .exp-text,
+.feedback-container.is-loading .feedback-issues {
+  animation: ai-pulse 1.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.feedback-container.is-loading .feedback-score-badge::after {
+  content: ' ⏳';
 }
